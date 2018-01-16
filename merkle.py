@@ -61,6 +61,21 @@ class Node:
             self.left.parent = self
             self.right.parent = self
 
+    def __str__(self, level=0) -> str:
+        '''Print out a tree
+
+        See the following stack overflow post for inspiration
+        https://stackoverflow.com/questions/20242479/printing-a-tree-data-structure-in-python
+        '''
+        ret = "\t" * level + repr(self.value) + "\n"
+        if self.left:
+            ret += self.left.__str__(level + 1)
+        if self.right:
+            ret += self.right.__str__(level + 1)
+        return ret
+
+    def __repr__(self) -> str:
+        return '<tree node representation>'
 
 class MerkleTree:
     '''The Merkle tree data structure'''
@@ -112,11 +127,12 @@ class MerkleTree:
         Might consider constructing this from bottom-to-top,
         just like the tree itself
         '''
+        return str(self.root_node)
 
 if __name__ == '__main__':
     transactions = ['hello', 'world', 'my', 'favorite', 'person']
     hash_transactions = [hash_alg(t) for t in transactions]
+    visual = {k: v for k, v in zip(transactions, hash_transactions)}
     m = MerkleTree(hash_transactions)
-    print('root hash: ', m.root_hash)
-    print('real transactions: ', transactions)
-    print('hash transactions:', hash_transactions)
+    pprint(visual)
+    print(m)
