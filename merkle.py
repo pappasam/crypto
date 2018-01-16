@@ -65,7 +65,8 @@ class Node:
         '''Print out a tree
 
         See the following stack overflow post for inspiration
-        https://stackoverflow.com/questions/20242479/printing-a-tree-data-structure-in-python
+        https://stackoverflow.com/questions/20242479/\
+            printing-a-tree-data-structure-in-python
         '''
         ret = "\t" * level + repr(self.value) + "\n"
         if self.left:
@@ -77,13 +78,15 @@ class Node:
     def __repr__(self) -> str:
         return '<tree node representation>'
 
+
 class MerkleTree:
     '''The Merkle tree data structure'''
 
     def __init__(self, transactions_hashed: List[str]):
         '''Initializer
 
-        :param transactions: transaction hashes to be placed in initial tree
+        :param transaction_hashed:
+            transaction hashes to be placed in initial tree
         '''
         self.base_nodes = OrderedDict([
             (transaction, Node(value=transaction))
@@ -117,22 +120,20 @@ class MerkleTree:
         '''Check that a hashed value of a leaf is valid
 
         This still a work in progress; not sure if this actually solves
-        the problem
+        the problem. Should probably do some real tree-climbing work.
         '''
         return leaf_value in self.base_nodes and root_hash == self.root_hash
 
     def __str__(self) -> str:
-        '''The string representation of the hash tree
-
-        Might consider constructing this from bottom-to-top,
-        just like the tree itself
-        '''
+        '''The string representation of the hash tree'''
         return str(self.root_node)
+
 
 if __name__ == '__main__':
     transactions = ['hello', 'world', 'my', 'favorite', 'person']
     hash_transactions = [hash_alg(t) for t in transactions]
-    visual = {k: v for k, v in zip(transactions, hash_transactions)}
-    m = MerkleTree(hash_transactions)
-    pprint(visual)
-    print(m)
+    merkle_tree = MerkleTree(hash_transactions)
+    for transaction, hash_transaction in zip(transactions, hash_transactions):
+        print(f'{transaction} :: {hash_transaction}')
+    print('-------------------------------------------------')
+    print(merkle_tree)
