@@ -11,11 +11,9 @@ Date Started: 2017-01-13
 '''
 
 import hashlib
-import json
 import itertools
 from collections import OrderedDict
-from typing import List, Dict, NamedTuple, Optional
-from pprint import pprint
+from typing import List, Optional
 
 
 def hash_alg(inval: str) -> str:
@@ -135,5 +133,5 @@ if __name__ == '__main__':
     merkle_tree = MerkleTree(hash_transactions)
     for transaction, hash_transaction in zip(transactions, hash_transactions):
         print(f'{transaction} :: {hash_transaction}')
-    print('-------------------------------------------------')
+    print('------------------------------------------------')
     print(merkle_tree)
